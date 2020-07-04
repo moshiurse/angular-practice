@@ -1,4 +1,12 @@
 <p>Here is your server list as nested component</p>
+<!-- Event binding -->
+<!-- <input type="text" class="form-control" (input)="onUpdateServerName($event)"/> -->
+<!-- two way binding -->
+<input type="text" class="form-control" [(ngModel)]="serverName"/>
+<p>{{ serverName }}</p>
+<button class="btn btn-primary" [disabled]="!allowNewServer" 
+(click)="onCreateServer()">Add Button</button>
+<p> {{ serverCreationStatus}} </p>
 <app-server></app-server>
 <app-server></app-server>
 <app-server></app-server>
