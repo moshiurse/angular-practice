@@ -1,10 +1,12 @@
-<h1>This is App Component</h1>
-
-<hr>
-<!-- as tag -->
-<!-- <app-servers></app-servers>  -->
-<!-- as attribute -->
-<!-- <div app-servers></div> -->
-
-<!-- as class -->
-<div class="app-servers"></div>
+<div class="container">
+    <app-cockpit></app-cockpit>
+    <hr>
+    <div class="row">
+      <div class="col-xs-12">
+        <app-server-element 
+        *ngFor="let serverElement of serverElements"
+        [srvElement]="serverElement"></app-server-element>
+      </div>
+    </div>
+  </div>
+  
