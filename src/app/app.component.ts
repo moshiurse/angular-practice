@@ -24,4 +24,8 @@ export class AppComponent {
     });
   }
 
+  onDestroyFirst(){
+    this.serverElements.splice(0,1);
+  }
+
 }
