@@ -1,53 +1,13 @@
 <div class="container">
   <div class="row">
-    <div class="col-xs-12">
-      <button
-        class="btn btn-primary"
-        (click)="onlyOdd = !onlyOdd">Only show odd numbers</button>
-      <br><br>
-      <ul class="list-group">
-        <div *ngIf="onlyOdd">
-          <li
-          class="list-group-item"
-          [ngClass]="{odd: oddNumber % 2 !== 0}"
-          [ngStyle]="{backgroundColor: oddNumber % 2 !== 0 ? 'yellow': 'red' }"
-          *ngFor="let oddNumber of oddNumbers">
-          {{ oddNumber }}
-          </li>
-        </div>
-        
-        <!-- <div *ngIf="!onlyOdd">
-          <li
-          class="list-group-item"
-          [ngClass]="{odd: evenNumber % 2 !== 0}"
-          [ngStyle]="{backgroundColor: evenNumber % 2 !== 0 ? 'yellow': 'red' }"
-          *ngFor="let evenNumber of evenNumbers">
-          {{ evenNumber }}
-          </li>
-        </div> -->
-
-        <div *appUnless="onlyOdd">
-          <li
-          class="list-group-item"
-          [ngClass]="{odd: evenNumber % 2 !== 0}"
-          [ngStyle]="{backgroundColor: evenNumber % 2 !== 0 ? 'yellow': 'red' }"
-          *ngFor="let evenNumber of evenNumbers">
-          {{ evenNumber }}
-          </li>
-        </div>
-        
-      </ul>
-      <p appBasicHighlight>Basic Highlight working</p>
-      <!-- <p appBetterDirective [defaultColor]="'yellow'" [highlightColor]="'red'">Better Highlight working</p> -->
-      <!-- <p [appBetterDirective]="'red'" [defaultColor]="'yellow'">Better Highlight working</p> -->
-      <p [appBetterDirective]="'red'" defaultColor="yellow">Better Highlight working</p>
-
-      <div [ngSwitch]="value">
-        <p *ngSwitchCase="5"> Value = 5</p>
-        <p *ngSwitchCase="15"> Value = 15</p>
-        <p *ngSwitchCase="50"> Value = 50</p>
-        <p *ngSwitchDefault> Value is default</p>
-      </div>
+    <div class="col-xs-12 col-md-8 col-md-offset-2">
+      <app-new-account (accountAdded)="onAccountAdded($event)"></app-new-account>
+      <hr>
+      <app-account
+        *ngFor="let acc of accounts; let i = index"
+        [account]="acc"
+        [id]="i"
+        (statusChanged)="onStatusChanged($event)"></app-account>
     </div>
   </div>
 </div>
