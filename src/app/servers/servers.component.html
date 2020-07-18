@@ -3,8 +3,8 @@
     <div class="list-group">
       <!-- [routerLink]="['/servers', server.id,'edit']" -->
       <a
-        [routerLink]="['/servers', server.id, 'edit']"
-        [queryParams]="{allowEdit: 1}"
+        [routerLink]="['/servers', server.id]"
+        [queryParams]="{allowEdit: server.id === 1 ? '1' : '0'}"
         [fragment]="'loading'"
         href="#"
         class="list-group-item"
@@ -15,9 +15,10 @@
   </div>
   <div class="col-xs-12 col-sm-4">
     <button class="btn btn-primary" (click)="onReload()">Reload Server</button>
-    <app-edit-server></app-edit-server>
+    <router-outlet></router-outlet>
+    <!-- <app-edit-server></app-edit-server>
     <hr>
-    <app-server></app-server>
+    <app-server></app-server> -->
   </div>
 </div>
 
