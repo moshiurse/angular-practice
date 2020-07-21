@@ -13,6 +13,16 @@ export class AppComponent {
   answer: string = '';
   genders = ['male', 'female'];
 
+  user = {
+    username: '',
+    email: '',
+    gender: '',
+    secret: '',
+    answer: ''
+  }
+
+  submitted = false;
+
   suggestUserName() {
     const suggestedName = 'moshiurse';
         //setvalue set the whole form value
@@ -40,6 +50,13 @@ export class AppComponent {
 
   // access with ViewChild()
   onSubmit(){
-    console.log('Submitted', this.form);
+    this.submitted = true;
+    this.user.username = this.form.value.userData.username;
+    this.user.email = this.form.value.userData.email;
+    this.user.secret = this.form.value.secret;
+    this.user.gender = this.form.value.gender;
+    this.user.answer = this.form.value.quesAns;
+
+    this.form.reset();
   }
 }
