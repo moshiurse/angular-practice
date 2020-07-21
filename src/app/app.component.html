@@ -2,14 +2,14 @@
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
       <form (ngSubmit)="onSubmit()" #form="ngForm">
-        <div id="user-data">
+        <div id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
           <div class="form-group">
             <label for="username">Username</label>
             <input type="text" id="username" class="form-control" name="username" 
             ngModel
             required>
           </div>
-          <button class="btn btn-default" type="button">Suggest an Username</button>
+          <button class="btn btn-default" type="button" (click)="suggestUserName()">Suggest an Username</button>
           <div class="form-group">
             <label for="email">Mail</label>
             <input type="email" id="email" class="form-control" name="email" 
@@ -20,13 +20,22 @@
             <span class="bg-warning" *ngIf="!email.valid && email.touched">Pls enter a valid email</span>
           </div>
         </div>
+        <p *ngIf="!userData.valid && userData.touched">User Data invalid</p>
         <div class="form-group">
           <label for="secret">Secret Questions</label>
-          <select id="secret" class="form-control" name="secret" ngModel>
+          <select id="secret" class="form-control" name="secret" [ngModel]="defaultQues">
             <option value="pet">Your first Pet?</option>
             <option value="teacher">Your first teacher?</option>
           </select>
         </div>
+        <div class="form-group">
+          <label for="email">Answer</label>
+          <textarea name="quesAns" rows="3" [(ngModel)]="answer" class="form-control"></textarea>
+          <span> Your reply: {{ answer }} </span>
+      </div>
+      <div class="radio" *ngFor="let gender of genders">
+        <input type="radio" name="gender" ngModel [value]="gender"> {{ gender }}
+      </div>
         <button class="btn btn-primary" type="submit" [disabled]="form.invalid">Submit</button>
       </form>
     </div>

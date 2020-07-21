@@ -9,9 +9,29 @@ import { NgForm } from "@angular/forms";
 export class AppComponent {
 
   @ViewChild('form') form: NgForm;
+  defaultQues: string = 'pet';
+  answer: string = '';
+  genders = ['male', 'female'];
 
   suggestUserName() {
-    const suggestedName = 'Superuser';
+    const suggestedName = 'moshiurse';
+        //setvalue set the whole form value
+    this.form.setValue({
+      userData: {
+        username: suggestedName,
+        email: suggestedName + "@mail.com"
+      },
+      gender: 'male',
+      secret: 'pet',
+      quesAns: 'aaaaa'
+    })
+
+    // patchvalue only set some value
+    // this.form.form.patchValue({
+    //   userData: {
+    //     username: suggestedName
+    //   }
+    // })
   }
 
   // onSubmit(form: NgForm){
