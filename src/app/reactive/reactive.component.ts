@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-reactive',
@@ -18,10 +19,32 @@ export class ReactiveComponent implements OnInit {
     this.form = new FormGroup({
       'userData': new FormGroup({
         'username': new FormControl(null, [Validators.required, this.forbiddenNames.bind(this)]),
-        'email': new FormControl(null, [Validators.required, Validators.email])
+        'email': new FormControl(null, [Validators.required, Validators.email], this.forbiddenEmails)
       }),
       'gender': new FormControl('male'),
       'hobbies': new FormArray([])
+    });
+    this.form.valueChanges.subscribe((value) => {
+      console.log(value);
+    });
+
+    this.form.statusChanges.subscribe((status) => {
+      console.log(status);
+    });
+
+    this.form.setValue({
+      userData: {
+        username: 'Moshiur',
+        email: 'moshiur' + "@mail.com"
+      },
+      gender: 'male',
+      hobbies: []
+    });
+
+    this.form.patchValue({
+      userData: {
+        username: 'Ela',
+      }
     })
   }
 
@@ -45,5 +68,19 @@ export class ReactiveComponent implements OnInit {
     }
     return null;
   } 
+
+  forbiddenEmails(control: FormControl): Promise<any> | Observable<any> {
+    const promise = new Promise((resolve, reject) => {
+      setTimeout(() => {
+        if(control.value === 'rmoshiur705@gmail.com'){
+          resolve({'emailIsForbidden': true});
+        } else {
+          resolve(null);
+        }
+      }, 1500)
+    })
+
+    return promise;
+  }
 
 }
