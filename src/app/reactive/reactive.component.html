@@ -2,22 +2,27 @@
     <div class="row">
       <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              formControlName="username"
-              class="form-control">
-          </div>
-          <div class="form-group">
-            <label for="email">email</label>
-            <input
-              type="text"
-              id="email"
-              formControlName="email"
-              class="form-control">
-          </div>
+            <div formGroupName="userData">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input
+                      type="text"
+                      id="username"
+                      formControlName="username"
+                      class="form-control">
+                      <span class="bg-warning" *ngIf="!form.get('userData.username').valid && form.get('userData.username').touched">Pls enter username</span>
+                  </div>
+                  <div class="form-group">
+                    <label for="email">email</label>
+                    <input
+                      type="text"
+                      id="email"
+                      formControlName="email"
+                      class="form-control">
+                      <span class="bg-warning" *ngIf="!form.get('userData.email').valid && form.get('userData.email').touched">Pls enter a valid email</span>
+                  </div>
+            </div>
+          
           <div class="radio" *ngFor="let gender of genders">
             <label>
               <input
@@ -26,6 +31,7 @@
                 [value]="gender">{{ gender }}
             </label>
           </div>
+          <span class="bg-warning" *ngIf="!form.valid && form.touched">Form is invalid</span><br>
           <button class="btn btn-primary" type="submit">Submit</button>
         </form>
       </div>
