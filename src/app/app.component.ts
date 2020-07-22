@@ -1,5 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
-import { NgForm } from "@angular/forms";
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -7,56 +6,37 @@ import { NgForm } from "@angular/forms";
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-
-  @ViewChild('form') form: NgForm;
-  defaultQues: string = 'pet';
-  answer: string = '';
-  genders = ['male', 'female'];
-
-  user = {
-    username: '',
-    email: '',
-    gender: '',
-    secret: '',
-    answer: ''
-  }
-
-  submitted = false;
-
-  suggestUserName() {
-    const suggestedName = 'moshiurse';
-        //setvalue set the whole form value
-    this.form.setValue({
-      userData: {
-        username: suggestedName,
-        email: suggestedName + "@mail.com"
-      },
-      gender: 'male',
-      secret: 'pet',
-      quesAns: 'aaaaa'
-    })
-
-    // patchvalue only set some value
-    // this.form.form.patchValue({
-    //   userData: {
-    //     username: suggestedName
-    //   }
-    // })
-  }
-
-  // onSubmit(form: NgForm){
-  //   console.log('Submitted', form);
-  // }
-
-  // access with ViewChild()
-  onSubmit(){
-    this.submitted = true;
-    this.user.username = this.form.value.userData.username;
-    this.user.email = this.form.value.userData.email;
-    this.user.secret = this.form.value.secret;
-    this.user.gender = this.form.value.gender;
-    this.user.answer = this.form.value.quesAns;
-
-    this.form.reset();
+  servers = [
+    {
+      instanceType: 'medium',
+      name: 'Production Server',
+      status: 'stable',
+      started: new Date(15, 1, 2017)
+    },
+    {
+      instanceType: 'large',
+      name: 'User Database',
+      status: 'stable',
+      started: new Date(15, 1, 2017)
+    },
+    {
+      instanceType: 'small',
+      name: 'Development Server',
+      status: 'offline',
+      started: new Date(15, 1, 2017)
+    },
+    {
+      instanceType: 'small',
+      name: 'Testing Environment Server',
+      status: 'stable',
+      started: new Date(15, 1, 2017)
+    }
+  ];
+  getStatusClasses(server: {instanceType: string, name: string, status: string, started: Date}) {
+    return {
+      'list-group-item-success': server.status === 'stable',
+      'list-group-item-warning': server.status === 'offline',
+      'list-group-item-danger': server.status === 'critical'
+    };
   }
 }
