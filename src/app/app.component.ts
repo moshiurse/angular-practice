@@ -1,60 +1,55 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map } from "rxjs/operators";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  loadedPosts = [];
 
-  appStatus = new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve('stable');
-    }, 2000)
-  })
-  servers = [
-    {
-      instanceType: 'medium',
-      name: 'Production Server',
-      status: 'stable',
-      started: new Date(15, 1, 2017)
-    },
-    {
-      instanceType: 'large',
-      name: 'User Database',
-      status: 'stable',
-      started: new Date(15, 1, 2017)
-    },
-    {
-      instanceType: 'small',
-      name: 'Development Server',
-      status: 'offline',
-      started: new Date(15, 1, 2017)
-    },
-    {
-      instanceType: 'small',
-      name: 'Testing Environment Server',
-      status: 'stable',
-      started: new Date(15, 1, 2017)
-    }
-  ];
+  constructor(private http: HttpClient) {}
 
-  filterStatus = '';
-
-  getStatusClasses(server: {instanceType: string, name: string, status: string, started: Date}) {
-    return {
-      'list-group-item-success': server.status === 'stable',
-      'list-group-item-warning': server.status === 'offline',
-      'list-group-item-danger': server.status === 'critical'
-    };
+  ngOnInit() {
+    this.fetchPosts();
   }
 
-  onAddServer(){
-    this.servers.push({
-        instanceType: 'small',
-        name: 'Testing Environment Server',
-        status: 'stable',
-        started: new Date(15, 1, 2017)
+  onCreatePost(postData: { title: string; content: string }) {
+    // Send Http request
+    this.http
+      .post(
+        'https://angular-demo-ef3ee.firebaseio.com/posts.json',
+        postData
+      )
+      .subscribe(responseData => {
+        console.log(responseData);
+      });
+  }
+
+  onFetchPosts() {
+    this.fetchPosts();
+  }
+
+  onClearPosts() {
+    // Send Http request
+  }
+
+  private fetchPosts(){
+    this.http.get('https://angular-demo-ef3ee.firebaseio.com/posts.json')
+    .pipe(map(responseData => {
+      const postArray = [];
+      for(const key in responseData){
+        if(responseData.hasOwnProperty(key)){
+          postArray.push({...responseData[key], id: key});
+        }
+      }
+      return postArray;
+    })
+    )
+    .subscribe(posts => {
+      console.log(posts);
     })
   }
 }
